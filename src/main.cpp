@@ -4,7 +4,6 @@
 #include <ArduinoJson.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <FastLED.h>
 
 using namespace websockets;
 
@@ -29,11 +28,7 @@ const int pump1Pin = D5;
 const int pump2Pin = D6;
 const int pump3Pin = D7;
 
-#define LED_PIN D3
-#define NUM_LEDS 8
-CRGB leds[NUM_LEDS];
-
-const int TAP_TIME_MS = 5000;
+const int TAP_TIME_MS = 2000;
 
 #define OLED_RESET -1
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
@@ -107,12 +102,6 @@ const unsigned char myBitmap [] PROGMEM = {
 // Function declarations
 bool tab_beer(String type);
 void sendWssMessage(String action, String type, int user_id);
-
-void geel(){
-  for(int i=0;i<NUM_LEDS;i++)
-  leds[i] = CRGB (204,0, 150);
-  FastLED.show();
-}
 
 // Websocket callbacks
 void onMessageCallback(WebsocketsMessage message) {
@@ -203,9 +192,6 @@ void setup()
   pinMode(pump1Pin, OUTPUT);
   pinMode(pump2Pin, OUTPUT);
   pinMode(pump3Pin, OUTPUT);
-
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
-  geel();
 
   // Turn off pumps
   digitalWrite(pump1Pin, HIGH);
